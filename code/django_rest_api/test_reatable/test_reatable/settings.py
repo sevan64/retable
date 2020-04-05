@@ -73,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'test_reatable.wsgi.application'
 
-
+AUTH_USER_MODEL = 'webapi.User'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
