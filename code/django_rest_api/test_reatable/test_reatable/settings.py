@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'webapi',
     'rest_framework',
     'corsheaders',
+    'django.contrib.sites',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'rest_auth.registration',
 ]
 
 MIDDLEWARE = [
@@ -106,7 +112,15 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication', # 追加
+    ]
+}
 
+SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
