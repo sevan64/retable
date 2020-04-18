@@ -1,5 +1,14 @@
 from django.urls import path
-from . import views
+
+from .views import PoetList, PoetDetail, UserList, UserDetail
+
+
 urlpatterns = [
-    path('api/profile/', views.ProfileListCreate.as_view() ),
+    path('<int:pk>/', PoetDetail.as_view()),
+    path('', PoetList.as_view()),
+    path('users/', UserList.as_view()),
+    path('users/<int:pk>/', UserDetail.as_view()),
 ]
+# urlpatterns = [
+#     path('api/poet/', views.PoetListCreate.as_view() ),
+# ]

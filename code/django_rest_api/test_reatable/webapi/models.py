@@ -5,7 +5,15 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.contrib.auth.base_user import BaseUserManager
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+
+GENDER_CHOICES = [
+    ('1', '男性'),
+    ('2', '女性'),
+    ('3','それ以外')
+]
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -106,7 +114,28 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 class Profile(models.Model):
-    name = models.ForeignKey('webapi.User', on_delete=models.CASCADE)
-    email = models.EmailField()
-    message = models.CharField(max_length=256)
+    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=1, blank=True, choices=GENDER_CHOICES)
+    birth_date = models.DateField(null=True, blank=True)
+    bio = models.CharField(max_length=500, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+
+class Poet(models.Model):
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    titele = models.CharField(max_length=32)
+    books_title = models.CharField(max_length=32)
+    author = models.CharField(max_length=16)
+    bio = models.CharField(max_length=500, blank=True)
+    purchased_date = models.DateField(null=True, blank=True)
+    finished_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

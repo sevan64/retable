@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from webapi.models import Profile
-class ProfileSerializer(serializers.ModelSerializer):
+from django.contrib.auth import get_user_model
+from webapi.models import Poet, User
+class PoetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
-        fields = ('id', 'name', 'email', 'message', 'created_at')
+        model = Poet
+        fields = ('id', 'name', 'books_title', 'author', 'bio','purchased_date','finished_date','created_at')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('id', 'username')
