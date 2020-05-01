@@ -4,8 +4,8 @@ from .views import PoetList, PoetDetail, UserList, UserDetail
 
 
 urlpatterns = [
-    path('<int:pk>/', PoetDetail.as_view()),
-    path('', PoetList.as_view()),
+    path('poet/<int:pk>/', PoetDetail.as_view()),
+    path('poet/', PoetList.as_view()),
     path('users/', UserList.as_view()),
     path('users/<int:pk>/', UserDetail.as_view()),
 ]
