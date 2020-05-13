@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Navbar from './Navbar';
+import About from './About';
+import Home from './Home';
 import './App.css';
 import axios from 'axios';
 
@@ -12,7 +16,7 @@ class Form extends React.Component {
           </label>
             <input
               className="input"
-              type="text" 
+              type="text"
               name="name"
               id="name"
               placeholder="Name"
@@ -222,10 +226,22 @@ class App extends Component {
 
   render() {
     return (
+      <div className="column is-12">
+        <div className="App">
+          <BrowserRouter>
+            <Switch>
+              <div>
+                <Navbar /><hr/>
+                <Route exact path='/' component={Home}/>
+                <Route path='/About' component={About}/>
+              </div>
+            </Switch>
+          </BrowserRouter>
+        </div>
       <div className="columns is-multiline">
         <div className="column is-6">
           <div className="notification">
-            本と凍った海とワタシ
+            リータブ流
           </div>
         </div>
         <div className="column is-6">
@@ -246,6 +262,7 @@ class App extends Component {
             users={this.state.users}
           />
         </div>
+      </div>
       </div>
     );
   }
