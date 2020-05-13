@@ -65,6 +65,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     followees = models.ManyToManyField('self', blank=True, symmetrical=False)
+    gender = models.CharField(max_length=1, blank=True, choices=GENDER_CHOICES)
+    birth_date = models.DateField(null=True, blank=True)
+    bio = models.CharField(max_length=500, blank=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(_('email address'), blank=True)
@@ -112,9 +115,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
-
+'''
 class Profile(models.Model):
-    name = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     gender = models.CharField(max_length=1, blank=True, choices=GENDER_CHOICES)
     birth_date = models.DateField(null=True, blank=True)
     bio = models.CharField(max_length=500, blank=True)
@@ -128,7 +131,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
+'''
 
 class Poet(models.Model):
     name = models.ForeignKey(User, on_delete=models.CASCADE)
