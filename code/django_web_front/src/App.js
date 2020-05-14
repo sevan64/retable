@@ -3,158 +3,17 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import About from './About';
 import Home from './Home';
+import Form from './Form';
+import Poetlist from './Poetlist';
 import './App.css';
 import axios from 'axios';
-
-class Form extends React.Component {
-  render() {
-    return (
-      <form id="post-data" onSubmit={this.props.handleSubmit}>
-        <div className="field">
-          <div className="control">
-          <label for="name">Name
-          </label>
-            <input
-              className="input"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Name"
-              value={this.props.name}
-              onChange={this.props.handleChange}
-            />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-          <label for="books_title">Book title
-          </label>
-            <input
-              className="input"
-              type="text"
-              name="books_titele"
-              id="books_titele"
-              placeholder="Book title"
-              value={this.props.books_titele}
-              onChange={this.props.handleChange}
-            />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-          <label for="author">Author
-          </label>
-            <input
-              className="input"
-              type="text"
-              name="author"
-              id="author"
-              placeholder="Author"
-              value={this.props.author}
-              onChange={this.props.handleChange}
-            />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-          <label for="bio">Bio
-          </label>
-            <textarea
-              className="textarea"
-              name="bio"
-              id="body"
-              placeholder="Bio"
-              value={this.props.bio}
-              onChange={this.props.handleChange}>
-            </textarea>
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-          <label for="purchased_date">Purchased
-          </label>
-            <input
-              className="input"
-              type="date"
-              name="purchased_date"
-              id="purchased_date"
-              value={this.props.purchased_date}
-              onChange={this.props.handleChange}
-            />
-          </div>
-        </div>
-        <div className="field">
-          <div className="control">
-          <label for="finished_date">Finished
-          </label>
-            <input
-              className="input"
-              type="date"
-              name="finished_date"
-              id="finished_date"
-              placeholder="Finished"
-              value={this.props.finished_date}
-              onChange={this.props.handleChange}
-            />
-          </div>
-        </div>
-        <input
-          className="button is-fullwidth is-primary is-outlined"
-          type="submit"
-          value="SEND POST"
-        />
-      </form>
-    );
-  }
-}
-
-class UserList extends React.Component {
-  renderRow() {
-    const listItems = this.props.users.map((u) =>
-      <tr key={u.id}>
-        <td>{u.id}</td>
-        <td>{u.name}</td>
-        <td>{u.books_title}</td>
-        <td>{u.author}</td>
-        <td>{u.bio}</td>
-        <td>{u.purchased_date}</td>
-        <td>{u.finished_date}</td>
-        <td>{u.created_at}</td>
-      </tr>
-    );
-    return(
-      listItems
-    );
-  }
-  render() {
-    return (
-      <table className="table is-fullwidth">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Books_title</th>
-            <th>Author</th>
-            <th>Bio</th>
-            <th>Purchased</th>
-            <th>Finished</th>
-            <th>Created at</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.renderRow()}
-        </tbody>
-      </table>
-    );
-  }
-}
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      usersLength: 0,
+      poets: [],
+      poetsLength: 0,
       name: "",
       books_title: "",
       author: "",
@@ -200,10 +59,10 @@ class App extends Component {
     };
     axios.post("http://localhost:8000/poet/?format=json", conf)
     .then(response => {
-      this.state.users.unshift(response.data);
+      this.state.poets.unshift(response.data);
       this.setState({
-        users: this.state.users,
-        usersLength: this.state.users.length,
+        poets: this.state.poets,
+        poetsLength: this.state.poets.length,
       });
     })
     .catch((error) => {
@@ -215,8 +74,8 @@ class App extends Component {
     axios.get('http://localhost:8000/poet/?format=json')
     .then(response => {
       this.setState({
-        users: response.data.reverse(),
-        usersLength: response.data.length,
+        poets: response.data.reverse(),
+        poetsLength: response.data.length,
       });
     })
     .catch((error) => {
@@ -257,9 +116,9 @@ class App extends Component {
           />
         </div>
         <div className="column is-12" id="user-table">
-          <p>There are {this.state.usersLength} users.</p>
-          <UserList
-            users={this.state.users}
+          <p>There are {this.state.poetsLength} poets.</p>
+          <Poetlist
+            poets={this.state.poets}
           />
         </div>
       </div>
